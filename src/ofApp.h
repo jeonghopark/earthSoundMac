@@ -47,8 +47,11 @@ public:
     ofxFloatSlider amountModGui;
     ofxFloatSlider amountFQGui;
     ofxFloatSlider thresholdInput;
+    ofxFloatSlider mainFq;
     ofxLabel viewText;
+    ofxLabel frameRate;
 
+    bool fullScreenOnOff;
 
 private:
     

@@ -12,9 +12,11 @@ void ofApp::setup(){
 	ofBackground(ofColor::fromHsb(0, 0, 30, 255));
     
     gui.setup();
+    gui.add(mainFq.setup("MainFQ", 0.1, 0, 100));
     gui.add(amountModGui.setup("amount Mod", 1, 0, 20));
     gui.add(amountFQGui.setup("amount FQ", 3.048, 0, 10));
-    gui.add(thresholdInput.setup("amount FQ", 100, 0, 512));
+    gui.add(thresholdInput.setup("amount FQ", 17.5, 0, 512));
+    gui.add(frameRate.setup("fps", ""));
     
     buttonState = "digital pin:";
     potValue = "analog pin:";
@@ -52,6 +54,9 @@ void ofApp::setup(){
     
     // Output
     synth.setOutputGen( tone * env * 0.75 );
+
+    fullScreenOnOff = false;
+    
 }
 
 //--------------------------------------------------------------
@@ -74,14 +79,14 @@ void ofApp::update(){
         float _inputMiddleValue = abs(ard.getAnalog(0)-512);
         if (_inputMiddleValue>thresholdInput) {
             synth.setParameter("trigger", 1);
-            synth.setParameter("triggerPitch", 0.1);
+            synth.setParameter("triggerPitch", mainFq);
         } else {
             synth.setParameter("trigger", 0);
-            synth.setParameter("triggerPitch", 0.1);
+            synth.setParameter("triggerPitch", mainFq);
         }
     }
     
-    
+    frameRate = ofToString(ofGetFrameRate(),1);
 }
 
 
@@ -202,6 +207,11 @@ void ofApp::analogPinChanged(const int & pinNum) {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed  (int key){
+    
+    if(key=='f') fullScreenOnOff = !fullScreenOnOff;
+        
+    ofSetFullscreen(fullScreenOnOff);
+    
     //    switch (key) {
     //        case OF_KEY_RIGHT:
     //            // rotate servo head to 180 degrees
@@ -252,11 +262,12 @@ void ofApp::windowResized(int w, int h){
 
 //--------------------------------------------------------------
 void ofApp::audioRequested (float * output, int bufferSize, int nChannels){
-    //		for (int i = 0; i < bufferSize; i++){
-    //			output[i*nChannels    ] = ofMap(ard.getAnalog(0),0,1023,0,1) * 0.5;
-    //			output[i*nChannels + 1] = ofMap(ard.getAnalog(0),0,1023,0,1) * 0.5;
-    //		}
-    
+
+//    for (int i = 0; i < bufferSize; i++){
+//        output[i*nChannels    ] = ofMap(ard.getAnalog(0),0,1023,0,1) * 0.9;
+//        output[i*nChannels + 1] = ofMap(ard.getAnalog(0),0,1023,0,1) * 0.9;
+//    }
+
     synth.fillBufferOfFloats(output, bufferSize, nChannels);
     
 }
