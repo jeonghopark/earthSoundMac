@@ -21,7 +21,7 @@ void ofApp::setup(){
     buttonState = "digital pin:";
     potValue = "analog pin:";
     
-	ard.connect("/dev/cu.usbmodem1421", 57600);
+	ard.connect("/dev/cu.usbmodem1411", 57600);
 	
 	// listen for EInitialized notification. this indicates that
 	// the arduino is ready to receive commands and it is safe to
@@ -93,17 +93,9 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    ofPushMatrix();
-    ofPushStyle();
-    ofSetColor(255);
-    ofFill();
-	if (!bSetupArduino){
-		font.drawString("arduino not ready...\n", 515, 40);
-	}
-    
-    ofRect(ofGetWidth()*0.5, ofGetHeight()*0.5, 10, analogInputA0*0.5);
-    ofPopStyle();
-    ofPopMatrix();
+    if (!bSetupArduino){
+        font.drawString("arduino not ready...\n", 515, 40);
+    }
     
     ofPushMatrix();
     ofPushStyle();
@@ -111,7 +103,7 @@ void ofApp::draw(){
     ofTranslate(0, ofGetHeight()*0.5);
     ofNoFill();
     
-	ofSetColor(255);
+	ofSetColor(255,120);
 	ofBeginShape();
 	for (int i=0; i<(int)ofGetWidth()*0.5; i++){
 		float px = ofMap( i, 0, (ofGetWidth()*0.5-1), 0, ofGetWidth()*0.5 );
@@ -122,7 +114,17 @@ void ofApp::draw(){
     ofPopStyle();
     ofPopMatrix();
     
+    
+    ofPushMatrix();
+    ofPushStyle();
+    ofSetColor(255,150);
+    ofDrawCircle(ofGetWidth()*0.5, ofGetHeight()*0.5, analogInputA0*0.5, analogInputA0*0.5);
+    ofPopStyle();
+    ofPopMatrix();
+
+    
     gui.draw();
+    
     
 }
 
