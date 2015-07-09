@@ -1,2 +1,3 @@
 addons
 ofxGui
+ofxTonic

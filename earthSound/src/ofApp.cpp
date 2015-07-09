@@ -21,7 +21,7 @@ void ofApp::setup(){
     buttonState = "digital pin:";
     potValue = "analog pin:";
     
-	ard.connect("/dev/cu.usbmodem1411", 57600);
+	ard.connect("/dev/cu.usbmodem1421", 57600);
 	
 	// listen for EInitialized notification. this indicates that
 	// the arduino is ready to receive commands and it is safe to
